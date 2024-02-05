@@ -30,4 +30,4 @@ jobs:
           compress_assets: "OFF"
           md5sum: false
           ldflags: "-s -w"
-          asset_name: "bricks-${{ matrix.goarch }}"
+          asset_name: "bricks-${{ matrix.goos }}-${{ matrix.goarch }}"
