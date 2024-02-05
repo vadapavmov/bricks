@@ -1,12 +1,13 @@
 package main
 
 import (
-	"bricks/internal/app"
 	"flag"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/vadapavmov/bricks/internal/app"
 )
 
 const Version = "v1.0.0"
