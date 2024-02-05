@@ -1,0 +1,33 @@
+name: Bricks Binary
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  release-ddrv:
+    name: Release bricks binary
+    permissions:
+      contents: write
+      packages: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: ["386", amd64, arm64]
+        exclude:
+          - goarch: "386"
+            goos: darwin
+    steps:
+      - uses: actions/checkout@v3
+      - uses: wangyoucao577/go-release-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          project_path: "./cmd/bricks"
+          binary_name: "bricks"
+          compress_assets: "OFF"
+          md5sum: false
+          ldflags: "-s -w"
+          asset_name: "bricks-${{ matrix.goarch }}"
