@@ -54,7 +54,7 @@ func main() {
 
 	// Run the app
 	bricks := app.New(*baseURL)
-	if err = bricks.Run(dirId, abspath, 2); err != nil {
+	if err = bricks.Run(dirId, abspath, *parallelDownloads); err != nil {
 		log.Fatalf("failed to download %v", err)
 	}
 }
