@@ -3,13 +3,14 @@ package app
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/schollz/progressbar/v3"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"sync"
+
+	"github.com/schollz/progressbar/v3"
 )
 
 const DefaultBaseURL = "https://vadapav.mov"
@@ -121,13 +122,17 @@ func (app *App) downloadFile(id, dirPath, name string) error {
 	}
 	defer resp.Body.Close()
 
-	f, _ := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
 	defer f.Close()
 
 	bar := progressbar.DefaultBytes(
 		resp.ContentLength,
 		"Downloading "+name,
 	)
+
 	_, err = io.Copy(io.MultiWriter(f, bar), resp.Body)
 	return err
 }

@@ -4,7 +4,7 @@ Command line downloader for vadapav.mov, it replicates the directory structure o
 
 ## Installation
 ### Option 1: Download Pre-built Binary
-1. Go to the [Releases](https://github.com/your/repo/releases) page of this repository.
+1. Go to the [Releases](https://github.com/vadapavmov/bricks/releases) page of this repository.
 2. Download the appropriate binary for your platform (e.g., `bricks-linux` for Linux, `bricks-windows.exe` for Windows).
 3. Rename the downloaded binary to `bricks`.
 
@@ -24,4 +24,4 @@ The basic usage of `bricks` is as follows:
 - `dirId`: The id of that you want to download from the server.
 
 ### Example
-`./bricks -path /path/to/downloads -server https://mirror.vadapav.mov -n 4 28dc7aeb-902b-4824-8be2-fa1e4f20383c`
+`./bricks 6c3924eb-7256-42df-b4a7-e088d1aa4903`
