@@ -80,6 +80,7 @@ func (app *App) doReq(method, endpoint string, startPos int64) (*http.Response, 
 	if err != nil {
 		return nil, err
 	}
+
 	if resp.StatusCode == http.StatusTooManyRequests {
 		handleRateLimit(resp)
 		return app.doReq(method, endpoint, startPos)
@@ -208,10 +209,10 @@ func (app *App) downloadFile(file *File, dirPath string) error {
 }
 
 func handleRateLimit(resp *http.Response) {
-	resetAtStr := resp.Header.Get("x-rate-limit-reset")
-	resetAt, err := strconv.Atoi(resetAtStr)
+	retryAfterStr := resp.Header.Get("Retry-After")
+	retryAfter, err := strconv.Atoi(retryAfterStr)
 	if err != nil {
-		log.Fatalf("failed to parse rate limit header %s", resetAtStr)
+		log.Fatalf("failed to parse rate limit header %s", retryAfterStr)
 	}
-	time.Sleep(time.Duration(resetAt+1) * time.Second)
+	time.Sleep(time.Duration(retryAfter+1) * time.Second)
 }
