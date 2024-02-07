@@ -134,7 +134,7 @@ func (app *App) downloadDir(id, parentPath string, ch chan struct{}, wg *sync.Wa
 }
 
 func (app *App) fetchDir(id string) (*File, error) {
-	resp, err := app.doReq(http.MethodGet, app.baseURL+"/api/d/"+id, 0)
+	resp, err := app.doReq(http.MethodGet, "/api/d/"+id, 0)
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (app *App) downloadFile(file *File, dirPath string) error {
 	path := filepath.Join(dirPath, file.Name)
 
 	// Head request to get the content length
-	headResp, err := app.doReq(http.MethodHead, app.baseURL+"/f/"+file.ID, 0)
+	headResp, err := app.doReq(http.MethodHead, "/f/"+file.ID, 0)
 	if err != nil {
 		return err
 	}
@@ -179,7 +179,7 @@ func (app *App) downloadFile(file *File, dirPath string) error {
 	}
 
 	// Get request with range header if resuming
-	resp, err := app.doReq(http.MethodGet, app.baseURL+"/f/"+file.ID, startPos)
+	resp, err := app.doReq(http.MethodGet, "/f/"+file.ID, startPos)
 	if err != nil {
 		return err
 	}
