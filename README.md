@@ -24,4 +24,8 @@ The basic usage of `bricks` is as follows:
 - `dirId`: The id of that you want to download from the server.
 
 ### Example
-`./bricks 6c3924eb-7256-42df-b4a7-e088d1aa4903`
+`./bricks -path Downloads/ -server https://drunk.vadapav.mov`
+
+### TODO
+- Retry capability 
+- Better progressbar
