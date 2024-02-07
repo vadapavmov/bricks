@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
+	"github.com/google/uuid"
 	"github.com/vadapavmov/bricks/internal/app"
 )
 
@@ -27,14 +31,8 @@ func main() {
 		return
 	}
 
-	// Check if the remaining argument (dirId) is provided
-	if flag.NArg() != 1 {
-		fmt.Println("Usage: bricks -path /your/download/path -url https://mirror.url dirId")
-		return
-	}
-
 	// Get dirId
-	dirId := flag.Arg(0)
+	dirId := getDir()
 
 	// Build absolute path
 	abspath, err := filepath.Abs(*downloadPath)
@@ -57,4 +55,28 @@ func main() {
 	if err = bricks.Run(dirId, abspath, *parallelDownloads); err != nil {
 		log.Fatalf("failed to download %v", err)
 	}
+}
+
+func getDir() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter URL: ")
+	inputURL, err := reader.ReadString('\n')
+	if err != nil {
+		log.Fatalf("failed to read URL: %v", err)
+	}
+	inputURL = strings.TrimSpace(inputURL) // Trim newline and whitespaces
+
+	// Parse URL and extract UUID
+	parsedURL, err := url.Parse(inputURL)
+	if err != nil {
+		log.Fatalf("failed to parse URL: %v", err)
+	}
+	uuidStr := parsedURL.Fragment
+
+	// Validate UUID
+	if _, err = uuid.Parse(uuidStr); err != nil {
+		log.Fatalf("invalid UUID format in URL: %v", err)
+	}
+
+	return uuidStr
 }
