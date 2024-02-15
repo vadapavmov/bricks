@@ -14,15 +14,14 @@ Command line downloader for vadapav.mov, it replicates the directory structure o
 ## Usage
 The basic usage of `bricks` is as follows:
 ```shell
-./bricks [options] dirId
+./bricks [options]
 ```
 - `[options]`:
     - `-path` (default: "."): Specifies the download path on your local machine.
     - `-n` (default: 3): Specifies the number of parallel file downloads. (Note: Limited to a maximum of 10 parallel downloads to prevent DDOS.)
-- `dirId`: The id of that you want to download from the server.
 
 ### Example
-`./bricks -path Downloads/`
+`./bricks --path=Downloads/`
 
 ### TODO
 - Retry capability 
