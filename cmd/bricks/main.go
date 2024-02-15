@@ -15,12 +15,11 @@ import (
 )
 
 const Version = "v1.2.0"
-const MaxAllowedParallelDownloads = 10
+const MaxAllowedParallelDownloads = 5
 
 func main() {
 	// Define default values and usage messages for flags
 	downloadPath := flag.String("path", ".", "Download path")
-	baseURL := flag.String("server", "https://vadapav.mov", "Base server url")
 	parallelDownloads := flag.Int("n", 3, "Number of parallel file downloads")
 	showVersion := flag.Bool("version", false, "Show version information")
 	flag.Parse()
@@ -32,7 +31,7 @@ func main() {
 	}
 
 	// Get dirId
-	dirId := getDir()
+	baseURL, dirId := parseURL()
 
 	// Build absolute path
 	abspath, err := filepath.Abs(*downloadPath)
@@ -51,13 +50,13 @@ func main() {
 	}
 
 	// Run the app
-	bricks := app.New(*baseURL)
+	bricks := app.New(baseURL)
 	if err = bricks.Run(dirId, abspath, *parallelDownloads); err != nil {
 		log.Fatalf("failed to download %v", err)
 	}
 }
 
-func getDir() string {
+func parseURL() (string, string) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter URL: ")
 	inputURL, err := reader.ReadString('\n')
@@ -71,12 +70,16 @@ func getDir() string {
 	if err != nil {
 		log.Fatalf("failed to parse URL: %v", err)
 	}
-	uuidStr := parsedURL.Fragment
+
+	uuidStr := strings.TrimPrefix(parsedURL.Path, "/")
+	uuidStr = strings.TrimSuffix(uuidStr, "/")
 
 	// Validate UUID
 	if _, err = uuid.Parse(uuidStr); err != nil {
 		log.Fatalf("invalid UUID format in URL: %v", err)
 	}
 
-	return uuidStr
+	baseURL := parsedURL.Scheme + "://" + parsedURL.Host
+
+	return baseURL, uuidStr
 }

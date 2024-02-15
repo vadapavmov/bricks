@@ -18,13 +18,11 @@ The basic usage of `bricks` is as follows:
 ```
 - `[options]`:
     - `-path` (default: "."): Specifies the download path on your local machine.
-    - `-server` (default: "https://vadapav.mov"): Specifies the base server URL from which to download files and directories.
     - `-n` (default: 3): Specifies the number of parallel file downloads. (Note: Limited to a maximum of 10 parallel downloads to prevent DDOS.)
-
 - `dirId`: The id of that you want to download from the server.
 
 ### Example
-`./bricks -path Downloads/ -server https://drunk.vadapav.mov`
+`./bricks -path Downloads/`
 
 ### TODO
 - Retry capability 
