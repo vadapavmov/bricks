@@ -18,7 +18,7 @@ The basic usage of `bricks` is as follows:
 ```
 - `[options]`:
     - `-path` (default: "."): Specifies the download path on your local machine.
-    - `-n` (default: 3): Specifies the number of parallel file downloads. (Note: Limited to a maximum of 10 parallel downloads to prevent DDOS.)
+    - `-n` (default: 3): Specifies the number of parallel file downloads. (Note: Limited to a maximum of 5 parallel downloads to prevent DDOS.)
 
 ### Example
 `./bricks --path=Downloads/`
