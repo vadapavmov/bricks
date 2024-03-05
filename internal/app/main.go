@@ -169,11 +169,11 @@ func (app *App) downloadFile(file *File, dirPath string) error {
 		// File exists, check its size
 		if fileInfo.Size() == contentLength {
 			// File is already fully downloaded
-			log.Printf("skipping file %s, file already exist with same size", file.Name)
+			log.Printf("skipping file %s, file already exists with same size", file.Name)
 			return nil
 		} else if fileInfo.Size() < contentLength {
 			// Partial file exists, resume download
-			log.Printf("partitial file %s found, resuming download", file.Name)
+			log.Printf("partial file %s found, resuming download", file.Name)
 			startPos = fileInfo.Size()
 		}
 		// else: File is larger than expected, will be overwritten
