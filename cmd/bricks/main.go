@@ -22,6 +22,7 @@ func main() {
 	downloadPath := flag.String("path", ".", "Download path")
 	parallelDownloads := flag.Int("n", 3, "Number of parallel file downloads")
 	showVersion := flag.Bool("version", false, "Show version information")
+	inputURL := flag.String("url", "", "URL to download")
 	flag.Parse()
 
 	// Show version
@@ -30,8 +31,25 @@ func main() {
 		return
 	}
 
+	var urlFromFlag string
+
+	if *inputURL != "" {
+		urlFromFlag = *inputURL
+	} else {
+		// If URL is not provided as a flag, read from stdin
+		if len(flag.Args()) == 0 {
+			reader := bufio.NewReader(os.Stdin)
+			fmt.Print("Enter URL: ")
+			urlFromStdin, err := reader.ReadString('\n')
+			if err != nil {
+				log.Fatalf("failed to read from stdin: %v", err)
+			}
+			urlFromFlag = strings.TrimSpace(urlFromStdin)
+		} 
+	}
+
 	// Get dirId
-	baseURL, dirId := parseURL()
+	baseURL, dirId := parseURL(urlFromFlag)
 
 	// Build absolute path
 	abspath, err := filepath.Abs(*downloadPath)
@@ -56,13 +74,7 @@ func main() {
 	}
 }
 
-func parseURL() (string, string) {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter URL: ")
-	inputURL, err := reader.ReadString('\n')
-	if err != nil {
-		log.Fatalf("failed to read URL: %v", err)
-	}
+func parseURL(inputURL string) (string, string) {
 	inputURL = strings.TrimSpace(inputURL) // Trim newline and whitespaces
 
 	// Parse URL and extract UUID
