@@ -19,9 +19,10 @@ The basic usage of `bricks` is as follows:
 - `[options]`:
     - `-path` (default: "."): Specifies the download path on your local machine.
     - `-n` (default: 3): Specifies the number of parallel file downloads. (Note: Limited to a maximum of 5 parallel downloads to prevent DDOS.)
+    - `-url` (optional) Specifies the URL to download. Can be inputted after starting the app if not passed as an argument.
 
 ### Example
-`./bricks --path=Downloads/`
+`./bricks --path=Downloads/ -n 5 -url https://vadapav.mov/be443a75-e7b0-42f9-8f68-2d899b03c63b/`
 
 ### TODO
 - Retry capability 
